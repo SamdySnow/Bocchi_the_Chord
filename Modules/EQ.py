@@ -1,3 +1,10 @@
-def eq():
+def low_pass_filter(cutoff):
     pass
-    return 0
+
+
+def high_pass_filter(cutoff):
+    pass
+
+
+def band_pass_filter(freq):
+    pass

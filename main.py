@@ -10,13 +10,17 @@ from matplotlib import pyplot as plt
 import Subsystem.ReadFile
 import Subsystem.FFT
 import Subsystem.Tempo
+import Subsystem.PCP_Basic
+import Subsystem.CQT
 
-filepath = 'TestData/test2.mp3'
+filepath = 'TestData/SciAudio/Pn_CMaj.wav'
 
 data, samplerate = Subsystem.ReadFile.read_file(filepath)
 
+data_cqt = Subsystem.CQT.cqt(data)
+
 fft_frames, freq_map, timestamp = Subsystem.FFT.get_fft_frames(data)
 
-Subsystem.Tempo.tempo(fft_frames, freq_map, timestamp)
+pcp = Subsystem.PCP_Basic.pcp_with_fft(fft_frames, freq_map)
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
