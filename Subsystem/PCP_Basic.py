@@ -5,6 +5,7 @@ import Subsystem.Tempo
 import cv2
 import math
 from matplotlib import pyplot as plt
+import Subsystem.CQT
 
 # TODO Complete PCP
 
@@ -31,7 +32,11 @@ def pcp_with_fft(data, freq_map):
 
     return pcp_array
 
-def pcp_with_cqt(data, freq_map):
+def pcp_with_cqt(data):
+
+
+
+
     pass
 
 

@@ -8,7 +8,7 @@ import Modules.TMF
 BPM_PREDICT_STEP = 0.1
 
 
-def tempo(data, freq_map, timestamp, diff_size=1):
+def tempo(fft_data, timestamp, diff_size=1):
     # * diff_Size定义FFT帧分组大小，默认为1（不分组）
 
     print('-' * 15)
@@ -40,8 +40,8 @@ def tempo(data, freq_map, timestamp, diff_size=1):
 
     i = 0
 
-    while i < len(data) - diff_size:
-        t = data[i: i + diff_size]
+    while i < len(fft_data) - diff_size:
+        t = fft_data[i: i + diff_size]
         avg_elem = []
 
         for j in range(len(t[0])):
@@ -56,7 +56,7 @@ def tempo(data, freq_map, timestamp, diff_size=1):
         time_axis.append(timestamp[i])
 
         avg_elem.clear()
-        print('\rGenerating Spectrum %d of %d. %.1f%% Completed' % (i, len(data), i / len(data) * 100), end='')
+        print('\rGenerating Spectrum %d of %d. %.1f%% Completed' % (i, len(fft_data), i / len(fft_data) * 100), end='')
         i += diff_size
 
     avg_fft_frames.pop(0)
