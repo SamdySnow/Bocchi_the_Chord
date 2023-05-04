@@ -1,4 +1,8 @@
-def low_pass_filter(cutoff):
+def high_pass_filter_by_freq_x(cutoff, data):
+    pass
+
+
+def high_pass_filter_by_note_x(cutoff, data):
     pass
 
 

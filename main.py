@@ -12,8 +12,9 @@ import Subsystem.Tempo
 import Subsystem.PCP_Basic
 import Subsystem.CQT
 import soundfile as sf
+import Subsystem.CTT
 
-filepath = './TestData/test2.mp3'
+filepath = './TestData/SciAudio/Pn_CMaj.wav'
 
 print('Reading Files...')
 
@@ -42,6 +43,12 @@ percussive_fft_data, percussive_freq_map, percussive_timestamp = Subsystem.FFT.g
 
 tempo = Subsystem.Tempo.tempo(percussive_fft_data, percussive_timestamp)
 
-pcp = Subsystem.PCP_Basic.pcp_with_fft(fft_frames, freq_map)
+cqt_data, cqt_timestamp = Subsystem.CQT.cqt(data)
 
+# pcp = Subsystem.PCP_Basic.pcp_with_fft(fft_frames, freq_map)
+cqt_pcp = Subsystem.PCP_Basic.pcp_with_cqt(cqt_data)
+
+chord = Subsystem.CTT.ctt(cqt_pcp)
+
+print(chord)
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/

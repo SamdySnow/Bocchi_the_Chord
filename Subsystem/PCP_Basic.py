@@ -18,7 +18,7 @@ def pcp_with_fft(data, freq_map):
     pcp_array = [0] * 12
     for i in data:
 
-        for j in range(1, round(len(i)/1)):
+        for j in range(1, round(len(i) / 1)):
             index = round(12 * math.log(freq_map[j] / F_REF, 2)) % 12
             pcp_array[index] += i[j]
 
@@ -32,12 +32,25 @@ def pcp_with_fft(data, freq_map):
 
     return pcp_array
 
+
 def pcp_with_cqt(data):
+    raw_pcp_data = [0] * 12
 
+    for i in data:
+        for j in range(len(i)):
+            raw_pcp_data[(j+3) % 12] += i[j]
 
+    max_cqt = max(raw_pcp_data)
 
+    pcp_array = [0] * 12
 
-    pass
+    for i in range(len(raw_pcp_data)):
+        pcp_array[i] = raw_pcp_data[i] / max_cqt
+
+    plt.bar(NOTE_AXIS, pcp_array)
+    plt.show()
+
+    return pcp_array
 
 
 def smooth_pcp():
