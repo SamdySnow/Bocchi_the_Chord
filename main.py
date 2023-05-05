@@ -13,8 +13,46 @@ import Subsystem.PCP_Basic
 import Subsystem.CQT
 import soundfile as sf
 import Subsystem.CTT
+import pygame as ui
+
+
+def get_sample():
+    path = './TestData/SciAudio/AliciasKeys_Samples_All.wav'
+    root_path = './TestData/SciAudio/AliciasKeys_Samples'
+    data, sr = librosa.load(path, sr=44100)
+
+    sp = 0
+    step = 44100 * 4
+
+    note = 0
+    octave = 1
+
+    NOTE_MAP = ['C', '#C', 'D', '#D', 'E', 'F', '#F', 'G', '#G', 'A', '#A', 'B']
+
+    while True:
+        try:
+            if sp > len(data):
+                break
+
+            sample = data[sp:sp + step]
+            # sample_array = numpy.array(sample)
+            note_name = NOTE_MAP[note % 12] + str(octave)
+            file = root_path + '/' + 'AliciasKeys_' + NOTE_MAP[note % 12] + str(octave) + '.wav'
+            print('Split Note %s' % (NOTE_MAP[note % 12] + str(octave)))
+            sf.write(file, sample, 44100, subtype='PCM_24')
+            note += 1
+            octave = note // 12 + 1
+            sp += step
+
+        except IndexError:
+            break
+
+    return None
+
 
 filepath = './TestData/SciAudio/Pn_CMaj.wav'
+
+# get_sample()
 
 print('Reading Files...')
 
@@ -51,4 +89,5 @@ cqt_pcp = Subsystem.PCP_Basic.pcp_with_cqt(cqt_data)
 chord = Subsystem.CTT.ctt(cqt_pcp)
 
 print(chord)
+
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
