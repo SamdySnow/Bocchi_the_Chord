@@ -3,6 +3,11 @@ import numpy
 
 
 def cqt(data):
+    """
+    得到原始数据的CQT（Constant-q-Transform，常量q变换）结果
+    :param data: list 原始采样数据
+    :return: list[list],list 标准化之后的CQT结果数据，CQT数据的时间戳，单位为毫秒（ms）
+    """
     Sample_rate = 44100
     Hop_size = 1024
 

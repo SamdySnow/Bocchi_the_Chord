@@ -14,6 +14,9 @@ import Subsystem.CQT
 import soundfile as sf
 import Subsystem.CTT
 import pygame as ui
+import Subsystem.Alicias_Chord_Generator
+import Subsystem.Feature_Vector_Extract
+import Subsystem.CTT_KNN
 
 
 def get_sample():
@@ -50,16 +53,28 @@ def get_sample():
     return None
 
 
-filepath = './TestData/SciAudio/Pn_CMaj.wav'
+# Subsystem.Alicias_Chord_Generator.generate_chord_list()
+
+
+filepath = './TestData/SciAudio/Pn_CMaj_+1.wav'
 
 # get_sample()
+# Subsystem.Feature_Vector_Extract.feature_vector()
+
 
 print('Reading Files...')
 
 data, samplerate = librosa.load(filepath, sr=44100)
+cqt_data, cqt_timestamp = Subsystem.CQT.cqt(data)
+Subsystem.CTT_KNN.ctt_knn(cqt_data)
 
 print('Performing HPSS...')
 harmonic_data, percussive_data = librosa.effects.hpss(data)
+print('Generating Harmonic Spectrum')
+harmonic_fft_data, harmonic_freq_map, harmonic_timestamp = Subsystem.FFT.get_fft_frames(harmonic_data)
+
+print('Generating percussive Spectrum')
+percussive_fft_data, percussive_freq_map, percussive_timestamp = Subsystem.FFT.get_fft_frames(percussive_data)
 
 # # TODO For Debugging only! Delete After Generation.
 # harmonic_array = numpy.array(harmonic_data)
@@ -71,19 +86,14 @@ harmonic_data, percussive_data = librosa.effects.hpss(data)
 
 cqt_data, cqt_timestamp = Subsystem.CQT.cqt(data)
 print('Generating Overall Spectrum')
+
 fft_frames, freq_map, timestamp = Subsystem.FFT.get_fft_frames(data)
-
-print('Generating Harmonic Spectrum')
-harmonic_fft_data, harmonic_freq_map, harmonic_timestamp = Subsystem.FFT.get_fft_frames(harmonic_data)
-
-print('Generating percussive Spectrum')
-percussive_fft_data, percussive_freq_map, percussive_timestamp = Subsystem.FFT.get_fft_frames(percussive_data)
 
 tempo = Subsystem.Tempo.tempo(percussive_fft_data, percussive_timestamp)
 
-cqt_data, cqt_timestamp = Subsystem.CQT.cqt(data)
 
-# pcp = Subsystem.PCP_Basic.pcp_with_fft(fft_frames, freq_map)
+
+pcp = Subsystem.PCP_Basic.pcp_with_fft(fft_frames, freq_map)
 cqt_pcp = Subsystem.PCP_Basic.pcp_with_cqt(cqt_data)
 
 chord = Subsystem.CTT.ctt(cqt_pcp)
