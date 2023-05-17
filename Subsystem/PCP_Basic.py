@@ -19,7 +19,7 @@ def pcp_with_fft(data, freq_map):
     for i in data:
 
         for j in range(1, round(len(i) / 1)):
-            index = round(12 * math.log(freq_map[j] / F_REF, 2)) % 12
+            index = round(12 * math.log(((freq_map[j] + freq_map[j]) / 2) / F_REF, 2)) % 12
             pcp_array[index] += i[j]
 
     max_pcp = max(pcp_array)
@@ -27,8 +27,8 @@ def pcp_with_fft(data, freq_map):
     for i in range(len(pcp_array)):
         pcp_array[i] = pcp_array[i] / max_pcp
 
-    plt.bar(NOTE_AXIS, pcp_array)
-    plt.show()
+    # plt.bar(NOTE_AXIS, pcp_array)
+    # plt.show()
 
     return pcp_array
 
@@ -38,7 +38,7 @@ def pcp_with_cqt(data):
 
     for i in data:
         for j in range(len(i)):
-            raw_pcp_data[(j+3) % 12] += i[j]
+            raw_pcp_data[(j + 3) % 12] += i[j]
 
     max_cqt = max(raw_pcp_data)
 

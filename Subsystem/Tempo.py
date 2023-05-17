@@ -112,11 +112,11 @@ def tempo(fft_data, timestamp, diff_size=1):
     for i in mtv_list:
         score_list.append(pow((i - avg_mtv), 2))
 
-    # plt.plot(bpm_axis, score_list)
-    # plt.show()
-    #
-    # plt.plot(bpm_axis, mtv_list)
-    # plt.show()
+    plt.plot(bpm_axis, score_list)
+    plt.show()
+
+    plt.plot(bpm_axis, mtv_list)
+    plt.show()
 
     res = round(bpm_axis[score_list.index(max(score_list))])
 

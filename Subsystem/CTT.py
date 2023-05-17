@@ -8,15 +8,20 @@ CHORD_MODE_PATTERN = [
     [1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0]
 
 ]
-ROOT_NOTE_MAP = (
-    'A', '#A', 'B', 'C', '#C', 'D', '#D', 'E', 'F', '#F', 'G', '#G'
-)
 CHORD_MODE_MAP = (
     'Maj', 'min', 'Maj7', 'min7', '7'
+)
+ROOT_NOTE_MAP = (
+    'A', '#A', 'B', 'C', '#C', 'D', '#D', 'E', 'F', '#F', 'G', '#G'
 )
 
 
 def ctt(pcp_array):
+    """
+    和弦模式匹配
+    :param pcp_array:list PCP向量
+    :return: string 和弦匹配结果
+    """
     root = 0
     mode = 0
     max_score = 0

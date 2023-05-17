@@ -4,6 +4,15 @@ from matplotlib import pyplot as plt
 
 def get_fft_frames(x, nfft=1024, cross=256, samplerate=44100):
 
+    """
+    得到一个原始采样信号的FFT结果与频率点位映射表
+    :param x: list 原始采样信号
+    :param nfft: int FFT大小，默认为1024
+    :param cross: int 分帧交叉大小
+    :param samplerate: int 采样频率
+    :return: list[list],list,list FFT帧，频率映射表，FFT帧的时间戳（ms，毫秒）
+    """
+
     tile = len(x) - numpy.floor(len(x) / (nfft - cross)) * (nfft - cross)
     padding = int(numpy.floor(nfft - tile))  # 计算补零个数
 
