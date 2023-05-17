@@ -5,7 +5,7 @@ from matplotlib import pyplot as plt
 import math
 import Subsystem.Feature_Vector_Extract
 
-K = 10
+K = 5
 
 
 def ctt_knn(data):
@@ -37,6 +37,25 @@ def ctt_knn(data):
         dist_map.pop(min_i)
 
     shorted_dm.pop(0)
+
+    knn_score = []
+    knn_label = []
+
+    for i in range(K):
+        if shorted_dm[i][0] in knn_label:
+            knn_score[knn_label.index(shorted_dm[i][0])] +=1
+        else:
+            knn_label.append(shorted_dm[i][0])
+            knn_score.append(1)
+
+    maxi = 0
+    for i in range(len(knn_label)):
+        if knn_score[i] > knn_score[maxi]:
+            maxi = i
+
+    return knn_label[maxi]
+
+
 
     print(shorted_dm)
 

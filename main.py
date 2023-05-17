@@ -56,7 +56,7 @@ def get_sample():
 # Subsystem.Alicias_Chord_Generator.generate_chord_list()
 
 
-filepath = './TestData/SciAudio/Pn_CMaj_+1.wav'
+filepath = './TestData/SciAudio/Pn_#FMaj7_DO.wav'
 
 # get_sample()
 # Subsystem.Feature_Vector_Extract.feature_vector()
@@ -66,15 +66,15 @@ print('Reading Files...')
 
 data, samplerate = librosa.load(filepath, sr=44100)
 cqt_data, cqt_timestamp = Subsystem.CQT.cqt(data)
-Subsystem.CTT_KNN.ctt_knn(cqt_data)
+knn_chord = Subsystem.CTT_KNN.ctt_knn(cqt_data)
 
-print('Performing HPSS...')
-harmonic_data, percussive_data = librosa.effects.hpss(data)
-print('Generating Harmonic Spectrum')
-harmonic_fft_data, harmonic_freq_map, harmonic_timestamp = Subsystem.FFT.get_fft_frames(harmonic_data)
-
-print('Generating percussive Spectrum')
-percussive_fft_data, percussive_freq_map, percussive_timestamp = Subsystem.FFT.get_fft_frames(percussive_data)
+# print('Performing HPSS...')
+# harmonic_data, percussive_data = librosa.effects.hpss(data)
+# print('Generating Harmonic Spectrum')
+# harmonic_fft_data, harmonic_freq_map, harmonic_timestamp = Subsystem.FFT.get_fft_frames(harmonic_data)
+#
+# print('Generating percussive Spectrum')
+# percussive_fft_data, percussive_freq_map, percussive_timestamp = Subsystem.FFT.get_fft_frames(percussive_data)
 
 # # TODO For Debugging only! Delete After Generation.
 # harmonic_array = numpy.array(harmonic_data)
@@ -89,15 +89,17 @@ print('Generating Overall Spectrum')
 
 fft_frames, freq_map, timestamp = Subsystem.FFT.get_fft_frames(data)
 
-tempo = Subsystem.Tempo.tempo(percussive_fft_data, percussive_timestamp)
+# tempo = Subsystem.Tempo.tempo(percussive_fft_data, percussive_timestamp)
 
 
 
 pcp = Subsystem.PCP_Basic.pcp_with_fft(fft_frames, freq_map)
 cqt_pcp = Subsystem.PCP_Basic.pcp_with_cqt(cqt_data)
 
-chord = Subsystem.CTT.ctt(cqt_pcp)
+chord_pcp = Subsystem.CTT.ctt(pcp)
+chord_cqt = Subsystem.CTT.ctt(cqt_pcp)
 
-print(chord)
+
+print(chord_pcp)
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
