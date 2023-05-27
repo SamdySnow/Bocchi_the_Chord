@@ -43,7 +43,7 @@ def ctt_knn(data):
 
     for i in range(K):
         if shorted_dm[i][0] in knn_label:
-            knn_score[knn_label.index(shorted_dm[i][0])] +=1
+            knn_score[knn_label.index(shorted_dm[i][0])] += 1
         else:
             knn_label.append(shorted_dm[i][0])
             knn_score.append(1)
@@ -55,12 +55,7 @@ def ctt_knn(data):
 
     return knn_label[maxi]
 
-
-
-    print(shorted_dm)
-
-
-
+    # print(shorted_dm)
 
 
 def l2_dist(list1, list2):

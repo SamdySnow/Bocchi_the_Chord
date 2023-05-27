@@ -47,8 +47,8 @@ def pcp_with_cqt(data):
     for i in range(len(raw_pcp_data)):
         pcp_array[i] = raw_pcp_data[i] / max_cqt
 
-    plt.bar(NOTE_AXIS, pcp_array)
-    plt.show()
+    # plt.bar(NOTE_AXIS, pcp_array)
+    # plt.show()
 
     return pcp_array
 

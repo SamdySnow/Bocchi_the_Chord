@@ -17,6 +17,7 @@ import pygame as ui
 import Subsystem.Alicias_Chord_Generator
 import Subsystem.Feature_Vector_Extract
 import Subsystem.CTT_KNN
+import Subsystem.Chord_Song
 
 
 def get_sample():
@@ -56,17 +57,34 @@ def get_sample():
 # Subsystem.Alicias_Chord_Generator.generate_chord_list()
 
 
-filepath = './TestData/SciAudio/Pn_#FMaj7_DO.wav'
+# filepath = './TestData/SciAudio/Pn_#FMaj7_DO.wav'
+# filepath = './TestData/test2.mp3'
+# filepath = './TestData/SciAudio/Pn_A3_440Hz.wav'
+# filepath = './TestData/SciAudio/Pn_DMaj.wav'
+# filepath = './TestData/SciAudio/Pn_DMaj_-1Oct.wav'
+# filepath = './TestData/SciAudio/Pn_DMaj_-2Oct.wav'
+# filepath = './TestData/SciAudio/Pn_DMaj_DO.wav'
+# filepath = './TestData/Song_clip/01.wav'
+
+filepath = './TestData/Song_clip/Act_data/piano(Beats_synced).wav'
 
 # get_sample()
+
 # Subsystem.Feature_Vector_Extract.feature_vector()
 
 
 print('Reading Files...')
 
 data, samplerate = librosa.load(filepath, sr=44100)
+
+fft_frames, freq_map, timestamp = Subsystem.FFT.get_fft_frames(data)
+tempo, betas_frames = Subsystem.Tempo.tempo(fft_frames, timestamp)
+
+# Subsystem.Chord_Song.chord_song_with_pcp(betas_frames, fft_frames, timestamp, freq_map)
+
 cqt_data, cqt_timestamp = Subsystem.CQT.cqt(data)
-knn_chord = Subsystem.CTT_KNN.ctt_knn(cqt_data)
+# knn_chord = Subsystem.CTT_KNN.ctt_knn(cqt_data)
+Subsystem.Chord_Song.chord_song_with_cqt(betas_frames, cqt_data, cqt_timestamp)
 
 # print('Performing HPSS...')
 # harmonic_data, percussive_data = librosa.effects.hpss(data)
@@ -87,10 +105,7 @@ knn_chord = Subsystem.CTT_KNN.ctt_knn(cqt_data)
 cqt_data, cqt_timestamp = Subsystem.CQT.cqt(data)
 print('Generating Overall Spectrum')
 
-fft_frames, freq_map, timestamp = Subsystem.FFT.get_fft_frames(data)
-
 # tempo = Subsystem.Tempo.tempo(percussive_fft_data, percussive_timestamp)
-
 
 
 pcp = Subsystem.PCP_Basic.pcp_with_fft(fft_frames, freq_map)
@@ -98,7 +113,6 @@ cqt_pcp = Subsystem.PCP_Basic.pcp_with_cqt(cqt_data)
 
 chord_pcp = Subsystem.CTT.ctt(pcp)
 chord_cqt = Subsystem.CTT.ctt(cqt_pcp)
-
 
 print(chord_pcp)
 
