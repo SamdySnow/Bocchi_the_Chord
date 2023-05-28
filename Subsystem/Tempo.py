@@ -4,6 +4,7 @@ import numpy
 from matplotlib import pyplot as plt
 import cv2
 import Modules.TMF
+import Subsystem.Beats_Track
 
 BPM_PREDICT_STEP = 0.1
 
@@ -19,7 +20,10 @@ def tempo(fft_data, timestamp, diff_size=1):
     print('3 : 100 - 200')
     print('4 : 150 - 300')
 
+    # TODO For debugging only!
+
     k = eval(input())
+    # k = 2
 
     if k == 1:
         BPM_PREDICT_START = 50
@@ -78,6 +82,8 @@ def tempo(fft_data, timestamp, diff_size=1):
     tmf_list = []
 
     # print(e)
+    # TODO For debugging only!
+    # beats_frames = Subsystem.Beats_Track.track(e, timestamp, 123)
 
     bpm = BPM_PREDICT_START
 
@@ -112,11 +118,11 @@ def tempo(fft_data, timestamp, diff_size=1):
     for i in mtv_list:
         score_list.append(pow((i - avg_mtv), 2))
 
-    plt.plot(bpm_axis, score_list)
-    plt.show()
-
-    plt.plot(bpm_axis, mtv_list)
-    plt.show()
+    # plt.plot(bpm_axis, score_list)
+    # plt.show()
+    #
+    # plt.plot(bpm_axis, mtv_list)
+    # plt.show()
 
     res = round(bpm_axis[score_list.index(max(score_list))])
 
@@ -126,7 +132,9 @@ def tempo(fft_data, timestamp, diff_size=1):
 
     print('BPM = %d' % res)
 
-    return res
+    beats_frames = Subsystem.Beats_Track.track(e, timestamp, res)
+
+    return res, beats_frames
 
 
 def avg_list(data):
